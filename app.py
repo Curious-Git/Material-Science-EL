@@ -56,6 +56,8 @@ if 'show_save_form' not in st.session_state:
     st.session_state.show_save_form = False  
 if 'current_view_analysis' not in st.session_state:
     st.session_state.current_view_analysis = None
+if 'analysis_history' not in st.session_state:
+    st.session_state.analysis_history = []
 
 # Load models (with caching for performance)
 @st.cache_resource
@@ -354,6 +356,22 @@ if analyze_button and st.session_state.processed_image is not None:
         # Store results in session state
         st.session_state.material_results = material_results
         st.session_state.defect_results = defect_results
+        
+        # Add to analysis history
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        history_entry = {
+            "timestamp": timestamp,
+            "image": st.session_state.processed_image.copy(),
+            "material_results": material_results.copy(),
+            "defect_results": defect_results.copy(),
+            "source": "uploaded_image" if uploaded_file else selected_sample,
+            "preprocessing": {
+                "contrast": st.session_state.contrast,
+                "brightness": st.session_state.brightness,
+                "zoom_factor": st.session_state.zoom_factor
+            }
+        }
+        st.session_state.analysis_history.append(history_entry)
 
 # Handle export functionality
 if 'export_button' in locals() and export_button:
@@ -540,6 +558,58 @@ with tab1:
 # Content for History tab
 with tab2:
     st.header("Analysis History")
+    
+    # Display session-based history (new feature)
+    st.subheader("Current Session History")
+    
+    if not st.session_state.analysis_history:
+        st.info("No analyses performed in this session yet. Analyze some images to see them here!")
+    else:
+        # Reverse the list to show latest analyses first
+        for idx, analysis in enumerate(reversed(st.session_state.analysis_history)):
+            with st.expander(f"Analysis {len(st.session_state.analysis_history) - idx}: {analysis['timestamp']}"):
+                col1, col2 = st.columns([1, 1])
+                
+                with col1:
+                    # Display the image
+                    st.image(analysis['image'], caption="Analyzed Image", use_column_width=True)
+                
+                with col2:
+                    # Material analysis results
+                    st.markdown("#### Material Analysis")
+                    st.markdown(f"**Type**: {analysis['material_results']['material_type']}")
+                    st.markdown(f"**Confidence**: {analysis['material_results']['confidence']:.2f}")
+                    
+                    # Material properties
+                    st.markdown("**Properties**:")
+                    for prop, value in analysis['material_results']['properties'].items():
+                        st.markdown(f"- {prop}: {value}")
+                    
+                    # Defect analysis results
+                    st.markdown("#### Defect Analysis")
+                    if analysis['defect_results']['has_defects']:
+                        st.markdown("⚠️ **Defects detected**")
+                        st.markdown(f"**Confidence**: {analysis['defect_results']['defect_confidence']:.2f}")
+                        st.markdown("**Defect types**:")
+                        for defect_type in analysis['defect_results']['defect_types']:
+                            st.markdown(f"- {defect_type}")
+                    else:
+                        st.markdown("✅ **No defects detected**")
+                    
+                    # Preprocessing parameters
+                    st.markdown("#### Preprocessing")
+                    st.markdown(f"**Contrast**: {analysis['preprocessing']['contrast']}")
+                    st.markdown(f"**Brightness**: {analysis['preprocessing']['brightness']}")
+                    st.markdown(f"**Zoom**: {analysis['preprocessing']['zoom_factor']}")
+                    
+                    # Source information
+                    st.markdown(f"**Source**: {analysis['source']}")
+    
+    # Separator between session history and database history
+    st.markdown("---")
+    
+    # Database history (existing feature)
+    st.subheader("Database History")
     
     # Get recent analyses from database
     try:
