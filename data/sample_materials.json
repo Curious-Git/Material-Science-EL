@@ -1,0 +1,118 @@
+{
+    "Carbon Steel": {
+        "material_type": "Carbon Steel",
+        "confidence": 0.95,
+        "properties": {
+            "Hardness (HRC)": 42.5,
+            "Grain Size (\u03bcm)": 15.3,
+            "Carbon Content (%)": 0.6,
+            "Ferrite Content (%)": 70.2,
+            "Pearlite Content (%)": 29.8
+        },
+        "has_defects": false,
+        "defect_types": [],
+        "defect_locations": [],
+        "defect_confidence": 0.0
+    },
+    "Stainless Steel": {
+        "material_type": "Stainless Steel",
+        "confidence": 0.92,
+        "properties": {
+            "Hardness (HRC)": 34.7,
+            "Grain Size (\u03bcm)": 22.4,
+            "Chromium Content (%)": 18.2,
+            "Nickel Content (%)": 10.5,
+            "Corrosion Resistance": "Excellent"
+        },
+        "has_defects": true,
+        "defect_types": [
+            "inclusion"
+        ],
+        "defect_locations": [
+            [
+                150,
+                120,
+                40,
+                30
+            ]
+        ],
+        "defect_confidence": 0.82
+    },
+    "Aluminum Alloy": {
+        "material_type": "Aluminum 7075",
+        "confidence": 0.88,
+        "properties": {
+            "Hardness (HB)": 85.6,
+            "Grain Size (\u03bcm)": 45.2,
+            "Zn Content (%)": 5.6,
+            "Mg Content (%)": 2.5,
+            "Tensile Strength (MPa)": 572
+        },
+        "has_defects": false,
+        "defect_types": [],
+        "defect_locations": [],
+        "defect_confidence": 0.0
+    },
+    "Ceramic": {
+        "material_type": "Ceramic - Alumina",
+        "confidence": 0.91,
+        "properties": {
+            "Density (g/cm\u00b3)": 3.8,
+            "Porosity (%)": 1.2,
+            "Grain Size (\u03bcm)": 3.5,
+            "Hardness (Vickers)": 1850,
+            "Thermal Conductivity (W/mK)": 30
+        },
+        "has_defects": true,
+        "defect_types": [
+            "porosity",
+            "crack"
+        ],
+        "defect_locations": [
+            [
+                210,
+                180,
+                25,
+                70
+            ],
+            [
+                350,
+                220,
+                35,
+                30
+            ]
+        ],
+        "defect_confidence": 0.87
+    },
+    "Metal Matrix Composite": {
+        "material_type": "Metal Matrix Composite",
+        "confidence": 0.84,
+        "properties": {
+            "Matrix Material": "Aluminum",
+            "Reinforcement": "Silicon Carbide",
+            "Reinforcement Content (%)": 25.5,
+            "Density (g/cm\u00b3)": 2.9,
+            "Elastic Modulus (GPa)": 120
+        },
+        "has_defects": true,
+        "defect_types": [
+            "inclusion",
+            "grain_boundary_issue"
+        ],
+        "defect_locations": [
+            [
+                180,
+                150,
+                40,
+                35
+            ],
+            [
+                290,
+                300,
+                60,
+                40
+            ]
+        ],
+        "defect_confidence": 0.78
+    }
+}
