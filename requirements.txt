@@ -1,8 +1,5 @@
 streamlit
-opencv-python
+opencv-python-headless==4.9.0.80
 torch
-torchvision
-Pillow
 numpy
-matplotlib
-scikit-learn
+Pillow
