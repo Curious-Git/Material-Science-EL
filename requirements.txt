@@ -1,0 +1,8 @@
+streamlit
+pillow
+numpy
+scikit-learn
+sqlalchemy
+matplotlib
+torch
+opencv-python-headless==4.9.0.80
